@@ -30,6 +30,7 @@ fun Application.configureBookController() {
             post("/reserve") {
                 val reserveBookDto = call.receive<ResieveDto>()
                 val isReserved = bookService.reserveBook(reserveBookDto)
+                call.respond(isReserved)
             }
         }
     }

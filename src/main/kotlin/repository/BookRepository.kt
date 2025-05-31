@@ -78,6 +78,7 @@ class BookRepository {
                     it[Orders.bookId] = book[Books.id]
                     it[Orders.orderDate] = kotlinx.datetime.Clock.System.now()
                     it[Orders.orderStatus] = true
+                    it[Orders.orderStatus] = false
                 }.insertedCount == 1
             }
         }
