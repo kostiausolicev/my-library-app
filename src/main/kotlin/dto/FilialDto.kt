@@ -8,8 +8,7 @@ data class FilialDto(
     val name: String,
     val address: String,
     val hours: String,
-    val open: String,
+    val open: Boolean,
     val image: String? = null,
-    val description: String? = null,
     val events: List<MeetingDto>? = null
 )

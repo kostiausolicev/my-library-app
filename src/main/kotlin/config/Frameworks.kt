@@ -21,7 +21,7 @@ fun Application.configureFrameworks() {
             single { UserService(UserRepository()) }
             single { BookService(BookRepository()) }
             single { EventService(EventRepository()) }
-            single { FilialService(FilialRepository()) }
+            single { FilialService(FilialRepository(), get()) }
         })
     }
 }

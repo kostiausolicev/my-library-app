@@ -45,4 +45,22 @@ class EventRepository {
             }
         }
     }
+
+    suspend fun findAllByFilialId(filialId: Int): List<ResultRow> {
+        return withContext(Dispatchers.IO) {
+            transaction {
+                Events
+                    .leftJoin(Filials, { Events.filialId }, { Filials.id })
+                    .select(
+                        Events.id,
+                        Events.title,
+                        Events.startAt,
+                        Events.image,
+                        Filials.address
+                    )
+                    .where { Events.filialId eq filialId }
+                    .toList()
+            }
+        }
+    }
 }

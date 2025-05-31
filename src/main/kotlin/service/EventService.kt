@@ -15,4 +15,9 @@ class EventService(private val repository: EventRepository) {
         val event = repository.findById(id)
         return Events.toDto(event)
     }
+
+    suspend fun findAllByFilialId(filialId: Int): List<MeetingDto> {
+        val results = repository.findAllByFilialId(filialId)
+        return results.map { Events.toDto(it) }
+    }
 }
