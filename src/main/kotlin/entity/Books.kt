@@ -24,7 +24,7 @@ object Books : IntIdTable("books") {
             rating = row[rating],
             category = row[category],
             date = row[date],
-            description = row[description]
+            description = row.getOrNull(description)
         )
     }
 }

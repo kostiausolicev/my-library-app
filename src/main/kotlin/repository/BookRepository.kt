@@ -2,9 +2,11 @@ package ru.guap.repository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.jetbrains.exposed.sql.QueryBuilder
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.leftJoin
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -16,7 +18,9 @@ class BookRepository {
         return withContext(Dispatchers.IO) {
             transaction {
                 Books
-                    .leftJoin(Orders, { id }, { bookId })
+                    .leftJoin(Orders, { id }, { bookId }) {
+                        Orders.orderStatus neq true
+                    }
                     .select(
                         Books.id,
                         Books.title,
@@ -36,7 +40,9 @@ class BookRepository {
         return withContext(Dispatchers.IO) {
             transaction {
                 Books
-                    .leftJoin(Orders, { Books.id }, { bookId })
+                    .leftJoin(Orders, { Books.id }, { bookId }) {
+                        (Orders.orderStatus neq true)
+                    }
                     .select(
                         Books.id,
                         Books.title,
@@ -50,8 +56,6 @@ class BookRepository {
                     )
                     .limit(1)
                     .where { Books.id eq id }
-                    .orderBy(Orders.orderDate, SortOrder.DESC)
-                    .limit(1)
                     .singleOrNull() ?: throw NoSuchElementException("Book with id $id not found")
             }
         }
@@ -61,11 +65,11 @@ class BookRepository {
         return withContext(Dispatchers.IO) {
             transaction {
                 val book = Books
-                    .leftJoin(Orders, { Books.id }, { bookId })
+                    .leftJoin(Orders, { Books.id }, { bookId }) {
+                        Orders.orderStatus neq true
+                    }
                     .select(Books.id)
                     .where { Books.id eq id }
-                    .orderBy(Orders.orderDate, SortOrder.DESC)
-                    .limit(1)
                     .singleOrNull()
                     ?: throw NoSuchElementException("Book with id $id not found")
 
