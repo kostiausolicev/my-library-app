@@ -10,7 +10,7 @@ data class BookDto(
     val author: String,
     val image: String? = null,
     val available: Boolean,
-    val rating: Double,
+    val rating: Float,
     val category: String,
     val date: LocalDate,
     val description: String? = null
