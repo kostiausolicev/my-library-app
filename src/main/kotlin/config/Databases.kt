@@ -1,4 +1,4 @@
-package ru.guap
+package ru.guap.config
 
 import io.ktor.server.application.Application
 import org.flywaydb.core.Flyway

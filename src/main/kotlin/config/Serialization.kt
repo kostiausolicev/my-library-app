@@ -1,4 +1,4 @@
-package ru.guap
+package ru.guap.config
 
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
@@ -23,20 +23,17 @@ object LocalDateSerializer : KSerializer<LocalDate> {
     override fun deserialize(decoder: Decoder): LocalDate = LocalDate.parse(decoder.decodeString())
 }
 
-// Настройка SerializersModule
-private val module = SerializersModule {
-    contextual(LocalDateSerializer)
-}
-
 @OptIn(ExperimentalSerializationApi::class)
 fun Application.configureSerialization() {
+    val module = SerializersModule {
+        contextual(LocalDateSerializer)
+    }
     install(ContentNegotiation) {
         json(Json {
             prettyPrint = true
             isLenient = true
             ignoreUnknownKeys = true
-            namingStrategy = SnakeCase
-            serializersModule = module // Добавляем SerializersModule
+            serializersModule = module
         })
     }
 }
