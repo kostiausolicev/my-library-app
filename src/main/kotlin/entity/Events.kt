@@ -20,12 +20,12 @@ object Events : IntIdTable("events") {
         val instant = Instant.parse(datetimeStr)
         val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
         val date = localDateTime.date
-        val time = localDateTime.time.toString()
+        val time = localDateTime.time
         return MeetingDto(
             id = row[id].value,
             title = row[title],
             date = date,
-            time = time,
+            time = "${time.hour}:${time.minute}",
             image = row[image],
             location = row[Filials.address]
         )
