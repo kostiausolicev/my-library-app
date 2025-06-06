@@ -7,7 +7,7 @@ import ru.guap.dto.UserDto
 object Users : IntIdTable("users") {
     val fullName = varchar("fullname", 50)
     val email = varchar("email", 50)
-    val phone = varchar("phone", 15)
+    val phone = varchar("phone", 20)
     val login = text("login")
     val password = text("password")
 
